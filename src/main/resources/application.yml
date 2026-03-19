@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: foodbudget-backend-spring
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/foodbudget}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: true
+    show-sql: ${DEBUG_SQL:false}
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.PostgreSQLDialect
+        format_sql: true
+
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    session:
+      timeout: 7d
+      cookie:
+        http-only: true # prevent XSS
+        secure: false # false = http, true = https
+        max-age: 7d
