@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VerificationCode {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
