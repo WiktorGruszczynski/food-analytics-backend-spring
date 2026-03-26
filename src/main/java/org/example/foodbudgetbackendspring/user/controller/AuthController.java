@@ -18,4 +18,15 @@ public class AuthController {
         return ResponseEntity.status(201).build();
     }
 
+    @PostMapping("/register-verify")
+    public ResponseEntity<?> verifyRegistration(@RequestParam String code){
+        userService.verifyRegistration(code);
+        return ResponseEntity.ok("Account activated");
+    }
+
+    @PostMapping("/resend-code")
+    public ResponseEntity<?> resendVerificationCode(@RequestParam String email){
+        userService.resendVerificationCode(email);
+        return ResponseEntity.ok("Email resent");
+    }
 }

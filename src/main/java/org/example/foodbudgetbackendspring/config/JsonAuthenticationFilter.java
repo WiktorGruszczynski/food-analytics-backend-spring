@@ -18,7 +18,7 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
     public JsonAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
-        setFilterProcessesUrl("/api/auth/login");
+        setFilterProcessesUrl("/auth/login");
     }
 
     @Override

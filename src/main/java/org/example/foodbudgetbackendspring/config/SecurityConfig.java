@@ -36,12 +36,12 @@ public class SecurityConfig {
         http
                 .addFilter(jsonFilter)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

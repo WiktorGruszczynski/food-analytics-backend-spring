@@ -1,0 +1,50 @@
+package org.example.foodbudgetbackendspring.mail;
+
+import jakarta.annotation.Nonnull;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+@Service
+@RequiredArgsConstructor
+public class MailService {
+
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
+
+    @Async
+    public void sendEmail(@Nonnull String to, String subject, String htmlBody) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlBody, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+    @Async
+    public void sendRegistrationEmail(@Nonnull String to, @Nonnull String verificationCode) {
+        try {
+            Context context = new Context();
+            context.setVariable("verification_code", verificationCode);
+
+            sendEmail(
+                    to,
+                    "Verification code",
+                    templateEngine.process("registration-email", context)
+            );
+
+        }
+        catch (Exception e) {
+            System.err.println("Could not send registration email: " + e.getMessage());
+        }
+    }
+}

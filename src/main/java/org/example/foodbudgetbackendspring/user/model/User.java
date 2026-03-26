@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +22,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
+
+    @Column(nullable = false)
+    private boolean enabled = false;
 
     public enum Role {
         USER, ADMIN
