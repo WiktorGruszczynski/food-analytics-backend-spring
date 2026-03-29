@@ -3,6 +3,7 @@ package org.example.foodbudgetbackendspring.product.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.foodbudgetbackendspring.recipe.model.Recipe;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,16 +41,30 @@ public class Product {
     // Nutrients
     @Column(nullable = false)
     private Float energyKcal;
+
+    @Column(nullable = false)
     private Float fat;
+
     private Float saturatedFat;
+
+    @Column(nullable = false)
     private Float carbohydrates;
+
     private Float sugars;
+
     private Float fiber;
+
+    @Column(nullable = false)
     private Float protein;
+
     private Float salt;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

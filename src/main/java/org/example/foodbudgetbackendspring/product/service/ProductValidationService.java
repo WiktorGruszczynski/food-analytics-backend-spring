@@ -58,11 +58,21 @@ public class ProductValidationService {
         }
     }
 
+    private void validateSource(Product product){
+        boolean hasEan = product.getEan() != null && !product.getEan().isEmpty();
+        boolean hasRecipe = product.getRecipe() != null;
+
+        if (!hasEan && !hasRecipe){
+            throw new ValidationException("Product must have either an EAN code or a Recipe");
+        }
+    }
+
     public Product validate(Product product) {
         validateEAN(product);
         validateDensity(product);
         validateFatContent(product);
         validateCarbohydratesContent(product);
+        validateSource(product);
 
         return product;
     }

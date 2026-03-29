@@ -21,6 +21,7 @@ public class ProductService {
 
     public ProductResponse addProduct(ProductRequest request) {
         Product product = productMapper.toEntity(request);
+
         if (product.isNutrientUnitLiquid() && product.getDensity() == null) {
             product.setDensity(
                     productDensityService.getDensityByProductName(product.getName())
