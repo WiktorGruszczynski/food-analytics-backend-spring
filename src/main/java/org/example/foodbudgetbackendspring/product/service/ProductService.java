@@ -5,7 +5,6 @@ import org.example.foodbudgetbackendspring.product.dto.ProductPatchRequest;
 import org.example.foodbudgetbackendspring.product.dto.ProductRequest;
 import org.example.foodbudgetbackendspring.product.dto.ProductResponse;
 import org.example.foodbudgetbackendspring.product.mapper.ProductMapper;
-import org.example.foodbudgetbackendspring.product.model.MeasurementUnit;
 import org.example.foodbudgetbackendspring.product.model.Product;
 import org.example.foodbudgetbackendspring.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
