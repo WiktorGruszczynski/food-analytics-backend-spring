@@ -15,7 +15,7 @@ public record ProductRequest(
         @NotNull MeasurementUnit nutrientUnit,
 
         @Positive Float density,
-        @NotNull @Positive Float energyKcal,
+        @NotNull @PositiveOrZero Float energyKcal,
 
         @PositiveOrZero Float fat,
         @PositiveOrZero Float saturatedFat,
@@ -25,5 +25,5 @@ public record ProductRequest(
         @PositiveOrZero Float protein,
         @PositiveOrZero Float salt,
 
-        @Positive @Digits(integer = 10, fraction = 2) BigDecimal price
+        @PositiveOrZero @Digits(integer = 10, fraction = 2) BigDecimal price
 ) {}

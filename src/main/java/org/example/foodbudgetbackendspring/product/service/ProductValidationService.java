@@ -29,7 +29,7 @@ public class ProductValidationService {
     private void validateEAN(Product product){
         String ean = product.getEan();
 
-        if (ean == null) return;
+        if (ean == null || ean.isEmpty()) return;
 
         if (!ean.matches("^(\\d{8}|\\d{13})$")){
             throw new ValidationException("Invalid EAN");
@@ -62,8 +62,8 @@ public class ProductValidationService {
         boolean hasEan = product.getEan() != null && !product.getEan().isEmpty();
         boolean hasRecipe = product.getRecipe() != null;
 
-        if (!hasEan && !hasRecipe){
-            throw new ValidationException("Product must have either an EAN code or a Recipe");
+        if (hasEan && hasRecipe){
+            throw new ValidationException("Product cannot have both an EAN code and a Recipe");
         }
     }
 

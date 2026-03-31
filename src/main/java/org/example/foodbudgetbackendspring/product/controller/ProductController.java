@@ -8,7 +8,6 @@ import org.example.foodbudgetbackendspring.product.dto.ProductRequest;
 import org.example.foodbudgetbackendspring.product.dto.ProductResponse;
 import org.example.foodbudgetbackendspring.product.service.ProductService;
 import org.example.foodbudgetbackendspring.user.model.CustomUserDetails;
-import org.example.foodbudgetbackendspring.user.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
