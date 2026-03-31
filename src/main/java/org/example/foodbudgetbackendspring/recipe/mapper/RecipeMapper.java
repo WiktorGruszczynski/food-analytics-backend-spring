@@ -1,11 +1,14 @@
 package org.example.foodbudgetbackendspring.recipe.mapper;
 
 import lombok.RequiredArgsConstructor;
+import org.example.foodbudgetbackendspring.product.model.Product;
 import org.example.foodbudgetbackendspring.product.repository.ProductRepository;
 import org.example.foodbudgetbackendspring.recipe.dto.*;
 import org.example.foodbudgetbackendspring.recipe.model.Ingredient;
 import org.example.foodbudgetbackendspring.recipe.model.Recipe;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 
 @Component
@@ -25,11 +28,16 @@ public class RecipeMapper {
     }
 
     private IngredientResponse toResponse(Ingredient ingredient){
+        Product product = ingredient.getProduct();
+
         return new IngredientResponse(
                 ingredient.getId(),
                 ingredient.getProduct().getId(),
                 ingredient.getQuantity(),
-                ingredient.getUnit()
+                ingredient.getUnit(),
+                BigDecimal.valueOf(
+                        ingredient.getQuantity() / product.getQuantity() * product.getPrice().doubleValue()
+                )
         );
     }
 

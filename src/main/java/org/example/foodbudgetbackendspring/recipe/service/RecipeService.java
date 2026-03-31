@@ -27,7 +27,7 @@ public class RecipeService {
 
     @Transactional
     public RecipeResponse updateRecipe(Long id, RecipePathRequest request) {
-        Recipe recipe = recipeRepository.findById(id).orElseThrow(
+        Recipe recipe = recipeRepository.findByIdWithIngredientsAndProducts(id).orElseThrow(
                 () -> new RuntimeException("Recipe not found")
         );
 
@@ -42,7 +42,7 @@ public class RecipeService {
     public RecipeResponse getRecipe(Long id) {
         return recipeMapper.toResponse(
                 recipeRepository
-                        .findByIdWithIngredients(id)
+                        .findByIdWithIngredientsAndProducts(id)
                         .orElseThrow(
                                 () -> new RuntimeException("Recipe not found")
                         )
