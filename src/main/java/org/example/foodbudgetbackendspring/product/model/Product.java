@@ -111,10 +111,20 @@ public class Product {
      * WARNING: This method leaves the product in an intermediate state (total sum).
      * Always call {@link #applyScaling(float)} after the calculation loop to normalize to 100g.
      */
-    public void addNutrientsFrom(Product otherProduct, float quantity){
-        float ratio = quantity / 100f;
+    public void addNutrientsFrom(Product otherProduct, float quantity, MeasurementUnit unit){
+        float massInGrams = quantity;
 
-        this.quantity += quantity;
+        if (unit.equals(MeasurementUnit.MILLILITER)) {
+            if (otherProduct.getDensity() == null) {
+                throw new IllegalStateException("NULL density for liquid product");
+            }
+
+            massInGrams = quantity * otherProduct.getDensity();
+        }
+
+        float ratio = massInGrams / 100f;
+
+        this.quantity += massInGrams;
         this.energyKcal += otherProduct.getEnergyKcal() * ratio;
         this.fat += otherProduct.getFat() * ratio;
         this.saturatedFat += otherProduct.getSaturatedFat() * ratio;

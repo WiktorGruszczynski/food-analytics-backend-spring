@@ -6,6 +6,7 @@ import org.example.foodbudgetbackendspring.product.repository.ProductRepository;
 import org.example.foodbudgetbackendspring.recipe.dto.*;
 import org.example.foodbudgetbackendspring.recipe.model.Ingredient;
 import org.example.foodbudgetbackendspring.recipe.model.Recipe;
+import org.example.foodbudgetbackendspring.recipe.service.IngredientValidationService;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class RecipeMapper {
     private final ProductRepository productRepository;
+    private final IngredientValidationService ingredientValidationService;
 
     private Ingredient toEntity(IngredientRequest ingRequest){
         Ingredient ingredient = new Ingredient();
@@ -48,7 +50,9 @@ public class RecipeMapper {
 
         for (IngredientRequest ingredientRequest : request.ingredients()) {
             recipe.addIngredient(
-                    toEntity(ingredientRequest)
+                    ingredientValidationService.validate(
+                            toEntity(ingredientRequest)
+                    )
             );
         }
 
@@ -72,7 +76,9 @@ public class RecipeMapper {
 
         for (IngredientRequest ingredientRequest : request.ingredients()) {
             recipe.addIngredient(
-                    toEntity(ingredientRequest)
+                    ingredientValidationService.validate(
+                            toEntity(ingredientRequest)
+                    )
             );
         }
     }

@@ -33,7 +33,6 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             Authentication auth = getAuthenticationManager().authenticate(token);
 
             if (auth.getPrincipal() instanceof CustomUserDetails userDetails) {
-                System.out.println(userDetails.isEnabled());
                 if (!userDetails.isEnabled()) {
                     throw new DisabledException("User is disabled");
                 }

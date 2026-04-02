@@ -35,7 +35,8 @@ public class RecipeService {
         for (Ingredient ingredient : recipe.getIngredients()) {
             product.addNutrientsFrom(
                     ingredient.getProduct(),
-                    ingredient.getQuantity()
+                    ingredient.getQuantity(),
+                    ingredient.getUnit()
             );
         }
 
@@ -61,7 +62,9 @@ public class RecipeService {
 
         createOrUpdateProductFromRecipe(fullRecipe);
 
-        return recipeMapper.toResponse(fullRecipe);
+        return recipeMapper.toResponse(
+                recipeRepository.save(fullRecipe)
+        );
     }
 
     @Transactional
