@@ -18,7 +18,10 @@ public class VerificationCode {
     @Column(nullable = false)
     private String code;
 
-    @OneToOne
+    @Enumerated(EnumType.STRING)
+    private VerificationType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
