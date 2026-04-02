@@ -18,7 +18,6 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
 
-    @Async
     public void sendEmail(@Nonnull String to, String subject, String htmlBody) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
@@ -30,7 +29,6 @@ public class MailService {
         mailSender.send(mimeMessage);
     }
 
-    @Async
     public void sendRegistrationEmail(@Nonnull String to, @Nonnull String verificationCode) {
         try {
             Context context = new Context();
@@ -44,7 +42,7 @@ public class MailService {
 
         }
         catch (Exception e) {
-            System.err.println("Could not send registration email: " + e.getMessage());
+            throw new RuntimeException("Could not send password reset email: " + e.getMessage());
         }
     }
 
@@ -59,7 +57,7 @@ public class MailService {
                     templateEngine.process("password-reset-email", context)
             );
         } catch (Exception e) {
-            System.err.println("Could not send password reset email: " + e.getMessage());
+            throw new RuntimeException("Could not send password reset email: " + e.getMessage());
         }
     }
 }
