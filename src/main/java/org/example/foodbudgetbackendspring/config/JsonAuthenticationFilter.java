@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import tools.jackson.databind.ObjectMapper;
 
@@ -33,7 +32,7 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
             Authentication auth = getAuthenticationManager().authenticate(token);
 
-            if (auth.getPrincipal() instanceof UserDetails userDetails) {
+            if (auth.getPrincipal() instanceof CustomUserDetails userDetails) {
                 System.out.println(userDetails.isEnabled());
                 if (!userDetails.isEnabled()) {
                     throw new DisabledException("User is disabled");

@@ -55,7 +55,7 @@ public class AuthService {
         }
 
         if (verificationCode.isExpired()){
-            throw new RuntimeException(VERIFICATION_ERROR_MESSAGE);
+            throw new RuntimeException("Code is expired");
         }
 
         return verificationCode;
