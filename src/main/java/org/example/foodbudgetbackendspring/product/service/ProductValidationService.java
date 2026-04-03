@@ -44,6 +44,10 @@ public class ProductValidationService {
         if (!product.isNutrientUnitLiquid() && product.getDensity() != null){
             throw new ValidationException("Nutrient unit is a mass unit, density is prohibited in this case");
         }
+
+        if (product.isNutrientUnitLiquid() && product.getDensity() == null){
+            throw new ValidationException("Density cannot be null for liquid");
+        }
     }
 
     private void validateFatContent(Product product){

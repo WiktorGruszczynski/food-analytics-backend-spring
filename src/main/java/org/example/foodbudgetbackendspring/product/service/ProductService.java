@@ -8,7 +8,6 @@ import org.example.foodbudgetbackendspring.product.mapper.ProductMapper;
 import org.example.foodbudgetbackendspring.product.model.Product;
 import org.example.foodbudgetbackendspring.product.repository.ProductRepository;
 import org.example.foodbudgetbackendspring.user.model.CustomUserDetails;
-import org.example.foodbudgetbackendspring.user.model.User;
 import org.example.foodbudgetbackendspring.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
