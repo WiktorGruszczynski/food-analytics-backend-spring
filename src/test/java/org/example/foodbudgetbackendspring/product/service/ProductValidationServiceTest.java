@@ -60,7 +60,5 @@ class ProductValidationServiceTest {
         product.setEan("5000112677867");
 
         service.validate(product);
-
-        throw new RuntimeException("TEST");
     }
 }
