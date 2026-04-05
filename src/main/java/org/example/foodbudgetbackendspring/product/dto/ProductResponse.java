@@ -15,7 +15,6 @@ public record ProductResponse(
         Float quantity,
         MeasurementUnit quantityUnit,
         MeasurementUnit nutrientUnit,
-        Float density,
         Float energyKcal,
         Float fat,
         Float saturatedFat,
@@ -33,7 +32,6 @@ public record ProductResponse(
     public ProductResponse {
         // Zaokrąglanie wszystkich wartości odżywczych i ilości
         quantity = round(quantity);
-        density = round(density);
         energyKcal = round(energyKcal);
         fat = round(fat);
         saturatedFat = round(saturatedFat);

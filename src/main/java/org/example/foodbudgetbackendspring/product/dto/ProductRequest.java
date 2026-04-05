@@ -14,7 +14,6 @@ public record ProductRequest(
         @NotNull MeasurementUnit quantityUnit,
         @NotNull MeasurementUnit nutrientUnit,
 
-        @Positive Float density,
         @NotNull @PositiveOrZero Float energyKcal,
 
         @PositiveOrZero Float fat,

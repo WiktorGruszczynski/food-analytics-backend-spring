@@ -1,23 +1,21 @@
 package org.example.foodbudgetbackendspring.recipe.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.example.foodbudgetbackendspring.product.model.Product;
+import org.example.foodbudgetbackendspring.product.mapper.ProductMapper;
 import org.example.foodbudgetbackendspring.product.repository.ProductRepository;
 import org.example.foodbudgetbackendspring.recipe.dto.*;
 import org.example.foodbudgetbackendspring.recipe.model.Ingredient;
 import org.example.foodbudgetbackendspring.recipe.model.Recipe;
 import org.example.foodbudgetbackendspring.recipe.service.IngredientValidationService;
-import org.example.foodbudgetbackendspring.user.model.CustomUserDetails;
 import org.example.foodbudgetbackendspring.user.model.User;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 
 @Component
 @RequiredArgsConstructor
 public class RecipeMapper {
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
     private final IngredientValidationService ingredientValidationService;
 
     private Ingredient toEntity(IngredientRequest ingRequest){
@@ -32,11 +30,11 @@ public class RecipeMapper {
     }
 
     private IngredientResponse toResponse(Ingredient ingredient){
-        Product product = ingredient.getProduct();
-
         return new IngredientResponse(
                 ingredient.getId(),
-                ingredient.getProduct().getId(),
+                productMapper.toResponse(
+                        ingredient.getProduct()
+                ),
                 ingredient.getQuantity(),
                 ingredient.getUnit(),
                 ingredient.getPrice()

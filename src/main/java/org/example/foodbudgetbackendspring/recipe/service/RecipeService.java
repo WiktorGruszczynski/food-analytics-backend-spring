@@ -1,7 +1,6 @@
 package org.example.foodbudgetbackendspring.recipe.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.foodbudgetbackendspring.product.model.MeasurementUnit;
 import org.example.foodbudgetbackendspring.product.model.Product;
 import org.example.foodbudgetbackendspring.recipe.dto.RecipePathRequest;
 import org.example.foodbudgetbackendspring.recipe.dto.RecipeRequest;
