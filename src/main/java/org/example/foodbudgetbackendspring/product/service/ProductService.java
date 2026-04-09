@@ -73,9 +73,11 @@ public class ProductService {
         );
    }
 
-    public @Nullable List<ProductResponse> getUserProducts(UUID id) {
+    public List<ProductResponse> getUserProducts(UUID id, boolean hasRecipe) {
         return productMapper.toResponseList(
-                productRepository.findProductsByOwnerId(id)
+                hasRecipe?
+                        productRepository.findByOwnerIdAndRecipeIsNotNull(id) :
+                        productRepository.findByOwnerIdAndRecipeIsNull(id)
         );
     }
 }

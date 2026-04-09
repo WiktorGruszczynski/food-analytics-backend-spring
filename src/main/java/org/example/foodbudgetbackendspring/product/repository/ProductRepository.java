@@ -21,5 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             @Param("isGlobal") Boolean isGlobal
     );
 
-    List<Product> findProductsByOwnerId(UUID id);
+    List<Product> findByOwnerId(UUID id);
+    List<Product> findByOwnerIdAndRecipeIsNull(UUID ownerId);
+    List<Product> findByOwnerIdAndRecipeIsNotNull(UUID ownerId);
 }

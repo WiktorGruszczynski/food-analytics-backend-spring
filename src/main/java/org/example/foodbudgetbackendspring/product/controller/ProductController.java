@@ -65,10 +65,11 @@ public class ProductController {
 
     @GetMapping("/me")
     public ResponseEntity<List<ProductResponse>> getUserProducts(
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(value = "hasRecipe") boolean hasRecipe
     ){
         return ResponseEntity.ok(
-                productService.getUserProducts(userDetails.getId())
+                productService.getUserProducts(userDetails.getId(), hasRecipe)
         );
     }
 }

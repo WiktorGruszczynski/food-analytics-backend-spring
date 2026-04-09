@@ -31,6 +31,7 @@ public class SecurityConfig {
     @Value("${server.servlet.session.cookie.max-age:7d}")
     private Duration sessionMaxAge;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http){
         JsonAuthenticationFilter jsonFilter = new JsonAuthenticationFilter(
@@ -68,6 +69,7 @@ public class SecurityConfig {
                         .logoutUrl("/auth/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
+                        .deleteCookies("SESSION")
                         .addLogoutHandler((request, response, authentication) -> {
 
                             Cookie authCookie = new Cookie("AUTHENTICATED", null);
