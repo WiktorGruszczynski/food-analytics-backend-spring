@@ -60,6 +60,7 @@ public class SecurityConfig {
         http
                 .addFilter(jsonFilter)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/ping").permitAll()
                         .requestMatchers("/auth/validate-session").authenticated()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
