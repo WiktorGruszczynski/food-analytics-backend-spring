@@ -107,7 +107,9 @@ server:
     session:
       timeout: 7d
       cookie:
-        http-only: true # prevent XSS
+        domain: wiktor-gruszczynski.pl
+        path: /
+        http-only: true
         secure: true
+        same-site: lax
         max-age: 7d
-    context-path: /api
