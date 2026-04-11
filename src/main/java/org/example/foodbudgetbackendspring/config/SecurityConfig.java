@@ -44,11 +44,12 @@ public class SecurityConfig {
 
         jsonFilter.setAuthenticationSuccessHandler((
                 request, response, authentication) -> {
-                    Cookie isAuthCookie = new Cookie("AUTHENTICATED", "true");
-                    isAuthCookie.setHttpOnly(false);
-                    isAuthCookie.setPath("/");
-                    isAuthCookie.setMaxAge((int) sessionMaxAge.getSeconds());
-                    response.addCookie(isAuthCookie);
+                    Cookie authCookie = new Cookie("AUTHENTICATED", "true");
+                    authCookie.setDomain("wiktor-gruszczynski.pl");
+                    authCookie.setHttpOnly(false);
+                    authCookie.setPath("/");
+                    authCookie.setMaxAge((int) sessionMaxAge.getSeconds());
+                    response.addCookie(authCookie);
 
                     response.setStatus(200);
                 }
