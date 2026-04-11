@@ -110,6 +110,6 @@ server:
         domain: wiktor-gruszczynski.pl
         path: /
         http-only: true
-        secure: true
+        secure: false
         same-site: none
         max-age: 7d
