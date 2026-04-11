@@ -102,6 +102,7 @@ spring:
             enable: true
 
 server:
+  forward-headers-strategy: framework
   port: ${SERVER_PORT:8080}
   servlet:
     session:
@@ -110,6 +111,6 @@ server:
         domain: wiktor-gruszczynski.pl
         path: /
         http-only: true
-        secure: false
+        secure: true
         same-site: none
         max-age: 7d
