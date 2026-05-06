@@ -2,6 +2,7 @@ package org.example.foodbudgetbackendspring.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +23,23 @@ public class TokenService {
     public String generateToken(Authentication auth) {
         Instant now = Instant.now();
 
+        String roleString = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(Objects::nonNull)
+                .filter(role -> role.startsWith("ROLE_"))
+                .findFirst().orElseThrow(() -> new RuntimeException("No role found"));
+
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.DAYS))
-                .subject(auth.getName())
+                .claim("email", auth.getName())
+                .claim("role", roleString)
                 .build();
 
-        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+        JwsHeader header = JwsHeader
+                .with(MacAlgorithm.HS256)
+                .type("JWT")
+                .build();
 
         return encoder.encode(
                 JwtEncoderParameters.from(header, claims)

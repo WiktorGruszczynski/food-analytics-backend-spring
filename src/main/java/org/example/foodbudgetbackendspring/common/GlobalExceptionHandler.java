@@ -1,5 +1,6 @@
 package org.example.foodbudgetbackendspring.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.foodbudgetbackendspring.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> createErrorResponse(HttpStatus status, String message, Map<String, List<String>> errors) {
         return ResponseEntity
@@ -35,6 +37,12 @@ public class GlobalExceptionHandler {
                         FieldError::getField,
                         Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList())
                 ));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
+        log.error(e.getMessage(), e);
+        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
     }
 
     @ExceptionHandler(BadCredentialsException.class)
