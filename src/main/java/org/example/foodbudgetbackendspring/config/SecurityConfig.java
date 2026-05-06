@@ -1,11 +1,17 @@
 package org.example.foodbudgetbackendspring.config;
 
-import jakarta.servlet.http.Cookie;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.OctetSequenceKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,107 +19,64 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.time.Duration;
-import java.util.List;
+import javax.crypto.spec.SecretKeySpec;
 
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    @Value("${server.servlet.session.cookie.max-age:7d}")
-    private Duration sessionMaxAge;
-
+    @Value("${JWT_SECRET}")
+    private String jwtSecret;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http){
-        JsonAuthenticationFilter jsonFilter = new JsonAuthenticationFilter(
-                authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))
-        );
-
-        jsonFilter.setSecurityContextRepository(
-                new HttpSessionSecurityContextRepository()
-        );
-
-        jsonFilter.setAuthenticationSuccessHandler((
-                request, response, authentication) -> {
-                    Cookie authCookie = new Cookie("AUTHENTICATED", "true");
-                    authCookie.setDomain("wiktor-gruszczynski.pl");
-                    authCookie.setHttpOnly(false);
-                    authCookie.setPath("/");
-                    authCookie.setMaxAge((int) sessionMaxAge.getSeconds());
-                    response.addCookie(authCookie);
-
-                    response.setStatus(200);
-                }
-        );
-        jsonFilter.setAuthenticationFailureHandler(
-                (request, response, authentication) -> response.setStatus(401)
-        );
-
-        http
-                .addFilter(jsonFilter)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/ping").permitAll()
-                        .requestMatchers("/auth/validate-session").authenticated()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("SESSION")
-                        .addLogoutHandler((request, response, authentication) -> {
-
-                            Cookie authCookie = new Cookie("AUTHENTICATED", null);
-                            authCookie.setPath("/");
-                            authCookie.setMaxAge(0);
-                            response.addCookie(authCookie);
-                        })
-                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2.jwt(Customizer.withDefaults())
                 )
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                );
-
-        return http.build();
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withSecretKey(
+                new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256")
+        ).build();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        return new NimbusJwtEncoder(
+                new ImmutableJWKSet<>(
+                        new JWKSet(
+                                new OctetSequenceKey.Builder(jwtSecret.getBytes()).build()
+                        )
+                )
+        );
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
-        return config.getAuthenticationManager();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowedOriginPatterns(List.of(
-                "http://localhost:*",
-                "https://food.wiktor-gruszczynski.pl"
-        ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
     }
 }
