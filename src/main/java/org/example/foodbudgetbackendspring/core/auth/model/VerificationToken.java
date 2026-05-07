@@ -1,9 +1,9 @@
-package org.example.foodbudgetbackendspring.auth.model;
+package org.example.foodbudgetbackendspring.core.auth.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.foodbudgetbackendspring.user.model.User;
+import org.example.foodbudgetbackendspring.core.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

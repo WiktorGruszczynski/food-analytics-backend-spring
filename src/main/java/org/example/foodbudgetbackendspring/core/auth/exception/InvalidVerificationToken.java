@@ -1,4 +1,4 @@
-package org.example.foodbudgetbackendspring.common.exception;
+package org.example.foodbudgetbackendspring.core.auth.exception;
 
 public class InvalidVerificationToken extends RuntimeException {
     public InvalidVerificationToken(String message) {

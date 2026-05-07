@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    @Value("${JWT_SECRET}")
+    @Value("${JWT_SECRET:unsafe-secret-for-testing-000000}")
     private String jwtSecret;
 
     @Bean

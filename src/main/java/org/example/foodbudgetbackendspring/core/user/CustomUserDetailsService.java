@@ -1,4 +1,4 @@
-package org.example.foodbudgetbackendspring.user;
+package org.example.foodbudgetbackendspring.core.user;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;

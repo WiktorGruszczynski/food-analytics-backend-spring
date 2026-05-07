@@ -1,10 +1,10 @@
-package org.example.foodbudgetbackendspring.auth;
+package org.example.foodbudgetbackendspring.core.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.foodbudgetbackendspring.auth.dto.AuthRequest;
-import org.example.foodbudgetbackendspring.auth.dto.TokenResponse;
-import org.example.foodbudgetbackendspring.auth.dto.VerificationRequest;
+import org.example.foodbudgetbackendspring.core.auth.dto.AuthRequest;
+import org.example.foodbudgetbackendspring.core.auth.dto.TokenResponse;
+import org.example.foodbudgetbackendspring.core.auth.dto.VerificationRequest;
 import org.example.foodbudgetbackendspring.common.dto.SimpleMessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

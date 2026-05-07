@@ -1,6 +1,6 @@
-package org.example.foodbudgetbackendspring.user;
+package org.example.foodbudgetbackendspring.core.user;
 
-import org.example.foodbudgetbackendspring.user.model.User;
+import org.example.foodbudgetbackendspring.core.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

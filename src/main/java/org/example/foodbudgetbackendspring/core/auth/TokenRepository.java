@@ -1,8 +1,8 @@
-package org.example.foodbudgetbackendspring.auth;
+package org.example.foodbudgetbackendspring.core.auth;
 
-import org.example.foodbudgetbackendspring.auth.model.TokenType;
-import org.example.foodbudgetbackendspring.auth.model.VerificationToken;
-import org.example.foodbudgetbackendspring.user.model.User;
+import org.example.foodbudgetbackendspring.core.auth.model.TokenType;
+import org.example.foodbudgetbackendspring.core.auth.model.VerificationToken;
+import org.example.foodbudgetbackendspring.core.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

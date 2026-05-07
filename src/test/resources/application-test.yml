@@ -14,10 +14,18 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-
-  session:
-    jdbc:
-      initialize-schema: always
+        show_sql: true
+        format_sql: true
 
   mail:
     host: localhost
+    port: 587
+    username: test-user@example.com
+    password: test-password
+    properties:
+      mail:
+        smtp:
+          from: test-user@example.com
+          auth: false
+          starttls:
+            enable: false

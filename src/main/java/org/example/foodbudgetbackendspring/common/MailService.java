@@ -1,4 +1,4 @@
-package org.example.foodbudgetbackendspring.common.service;
+package org.example.foodbudgetbackendspring.common;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 public class MailService {
     private final JavaMailSender mailSender;
 
-    @Value("${MAIL_USERNAME}")
+    @Value("${spring.mail.properties.mail.smtp.from}")
     private String fromEmail;
 
     @Async

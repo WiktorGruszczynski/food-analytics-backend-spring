@@ -1,20 +1,20 @@
-package org.example.foodbudgetbackendspring.auth;
+package org.example.foodbudgetbackendspring.core.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.example.foodbudgetbackendspring.auth.dto.AuthRequest;
-import org.example.foodbudgetbackendspring.auth.dto.TokenResponse;
-import org.example.foodbudgetbackendspring.auth.dto.VerificationRequest;
-import org.example.foodbudgetbackendspring.auth.model.TokenType;
-import org.example.foodbudgetbackendspring.auth.model.VerificationToken;
+import org.example.foodbudgetbackendspring.core.auth.dto.AuthRequest;
+import org.example.foodbudgetbackendspring.core.auth.dto.TokenResponse;
+import org.example.foodbudgetbackendspring.core.auth.dto.VerificationRequest;
+import org.example.foodbudgetbackendspring.core.auth.model.TokenType;
+import org.example.foodbudgetbackendspring.core.auth.model.VerificationToken;
 import org.example.foodbudgetbackendspring.common.dto.SimpleMessageResponse;
-import org.example.foodbudgetbackendspring.common.exception.EmailAlreadyTakenException;
-import org.example.foodbudgetbackendspring.common.exception.InvalidVerificationToken;
-import org.example.foodbudgetbackendspring.common.service.MailService;
+import org.example.foodbudgetbackendspring.core.auth.exception.EmailAlreadyTakenException;
+import org.example.foodbudgetbackendspring.core.auth.exception.InvalidVerificationToken;
+import org.example.foodbudgetbackendspring.common.MailService;
 import org.example.foodbudgetbackendspring.common.util.CodeGenerator;
 import org.example.foodbudgetbackendspring.security.TokenService;
-import org.example.foodbudgetbackendspring.user.model.Role;
-import org.example.foodbudgetbackendspring.user.model.User;
-import org.example.foodbudgetbackendspring.user.UserRepository;
+import org.example.foodbudgetbackendspring.core.user.model.Role;
+import org.example.foodbudgetbackendspring.core.user.model.User;
+import org.example.foodbudgetbackendspring.core.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -35,7 +35,7 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
     @Transactional
-    protected VerificationToken createVerificationToken(User user, TokenType type) {
+    public VerificationToken createVerificationToken(User user, TokenType type) {
         tokenRepository.deleteByUser(user);
         tokenRepository.flush();
 
