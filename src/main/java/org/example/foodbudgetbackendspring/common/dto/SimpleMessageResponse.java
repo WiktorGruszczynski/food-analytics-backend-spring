@@ -1,6 +1,6 @@
 package org.example.foodbudgetbackendspring.common.dto;
 
-public record TokenResponse(
-        String token
+public record SimpleMessageResponse(
+        String message
 ) {
 }

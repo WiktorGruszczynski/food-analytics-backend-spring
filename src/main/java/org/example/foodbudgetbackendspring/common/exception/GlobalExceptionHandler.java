@@ -1,10 +1,11 @@
-package org.example.foodbudgetbackendspring.common;
+package org.example.foodbudgetbackendspring.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.foodbudgetbackendspring.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         return createErrorResponse(
-                HttpStatus.UNAUTHORIZED, "Bad credentials"
+                HttpStatus.UNAUTHORIZED, e.getMessage()
         );
     }
 
@@ -56,6 +57,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         return createErrorResponse(
                 HttpStatus.BAD_REQUEST, "Validation error", generateValidationErrors(e)
+        );
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
+        return createErrorResponse(
+                HttpStatus.FORBIDDEN, e.getMessage()
         );
     }
 }

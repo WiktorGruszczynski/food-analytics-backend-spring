@@ -3,7 +3,9 @@ package org.example.foodbudgetbackendspring.auth;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.foodbudgetbackendspring.auth.dto.AuthRequest;
-import org.example.foodbudgetbackendspring.common.dto.TokenResponse;
+import org.example.foodbudgetbackendspring.auth.dto.TokenResponse;
+import org.example.foodbudgetbackendspring.auth.dto.VerificationRequest;
+import org.example.foodbudgetbackendspring.common.dto.SimpleMessageResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,11 +19,21 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseEntity<SimpleMessageResponse> register(
             @Valid @RequestBody AuthRequest request
-    ) {
-        authService.registerUser(request);
-        return ResponseEntity.ok("success");
+    ){
+        return ResponseEntity.ok(
+                authService.register(request)
+        );
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<SimpleMessageResponse> verify(
+            @Valid @RequestBody VerificationRequest request
+    ){
+        return ResponseEntity.ok(
+                authService.verifyAccount(request)
+        );
     }
 
     @PostMapping("/login")
