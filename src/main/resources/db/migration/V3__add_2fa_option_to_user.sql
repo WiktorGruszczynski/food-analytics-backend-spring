@@ -1,0 +1,2 @@
+ALTER TABLE users
+    ADD requires2fa BOOLEAN NOT NULL DEFAULT false;

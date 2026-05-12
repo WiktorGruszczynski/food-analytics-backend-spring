@@ -37,6 +37,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean enabled = false;
 
+    @Column(nullable = false)
+    private boolean requires2FA = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));

@@ -16,10 +16,10 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class JwtService {
     private final JwtEncoder encoder;
 
-    public String generateToken(Authentication auth) {
+    public String generateJWT(Authentication auth) {
         Instant now = Instant.now();
 
         String roleString = auth.getAuthorities().stream()
