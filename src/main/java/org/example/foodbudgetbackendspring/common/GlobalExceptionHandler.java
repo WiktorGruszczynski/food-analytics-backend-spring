@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         return createErrorResponse(
-                HttpStatus.UNAUTHORIZED, e.getMessage()
+                HttpStatus.UNAUTHORIZED, "Bad Credentials"
         );
     }
 
