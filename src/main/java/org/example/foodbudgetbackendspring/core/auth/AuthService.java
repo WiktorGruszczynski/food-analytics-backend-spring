@@ -1,6 +1,5 @@
 package org.example.foodbudgetbackendspring.core.auth;
 
-import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import org.example.foodbudgetbackendspring.core.auth.dto.*;
 import org.example.foodbudgetbackendspring.core.auth.model.TokenType;
@@ -10,7 +9,7 @@ import org.example.foodbudgetbackendspring.core.auth.exception.EmailAlreadyTaken
 import org.example.foodbudgetbackendspring.core.auth.exception.InvalidVerificationToken;
 import org.example.foodbudgetbackendspring.common.MailService;
 import org.example.foodbudgetbackendspring.common.util.CodeGenerator;
-import org.example.foodbudgetbackendspring.security.JwtService;
+import org.example.foodbudgetbackendspring.security.jwt.JwtService;
 import org.example.foodbudgetbackendspring.core.user.model.Role;
 import org.example.foodbudgetbackendspring.core.user.model.User;
 import org.example.foodbudgetbackendspring.core.user.UserRepository;
@@ -18,12 +17,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 /**
  * Service handling authentication, registration, and account recovery processes.

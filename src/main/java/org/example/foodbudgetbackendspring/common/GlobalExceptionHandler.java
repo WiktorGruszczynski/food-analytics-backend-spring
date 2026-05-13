@@ -2,10 +2,14 @@ package org.example.foodbudgetbackendspring.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.foodbudgetbackendspring.common.dto.ErrorResponse;
+import org.example.foodbudgetbackendspring.core.auth.exception.InvalidVerificationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,6 +54,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
         return createErrorResponse(
                 HttpStatus.UNAUTHORIZED, "Bad Credentials"
+        );
+    }
+
+    @ExceptionHandler(InvalidVerificationToken.class)
+    public ResponseEntity<ErrorResponse> handleInvalidVerificationToken(InvalidVerificationToken e) {
+        return createErrorResponse(
+                HttpStatus.UNAUTHORIZED, "Invalid Verification Token"
+        );
+    }
+
+    @ExceptionHandler({
+                    AuthorizationDeniedException.class,
+                    InsufficientAuthenticationException.class
+    })
+    public ResponseEntity<ErrorResponse> unauthorizedException(AuthorizationDeniedException e) {
+        return createErrorResponse(
+                HttpStatus.UNAUTHORIZED, "Unauthorized"
         );
     }
 

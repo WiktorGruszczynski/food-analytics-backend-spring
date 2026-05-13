@@ -1,4 +1,4 @@
-package org.example.foodbudgetbackendspring.security;
+package org.example.foodbudgetbackendspring.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
